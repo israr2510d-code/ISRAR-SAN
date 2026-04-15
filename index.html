@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazing Bridges</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; }
+        .hero-bg {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4), #000);
+        }
+        .gallery-card:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        .gallery-img {
+            transition: transform 0.5s ease;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #f97316;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .mobile-menu.open {
+            max-height: 300px;
+        }
+        .toast {
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        /* Download Button */
+        .download-btn {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(249,115,22,0.3); }
+            50% { box-shadow: 0 0 25px rgba(249,115,22,0.6); }
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <!-- ====== FLOATING DOWNLOAD BUTTON ====== -->
+    <button id="downloadBtn" class="download-btn fixed bottom-6 right-6 z-50 w-14 h-14 bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 group"
+            title="Download Website">
+        <i data-lucide="download" class="w-6 h-6 text-white"></i>
+        <!-- Tooltip -->
+        <span class="absolute right-full mr-3 px-3 py-1.5 bg-white text-black text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            Download Website
+        </span>
+    </button>
+
+    <!-- ====== NAVBAR ====== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300" style="background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-2">
+                <i data-lucide="bridge" class="w-7 h-7 text-orange-500"></i>
+                <span class="text-xl font-semibold tracking-tight">Amazing<span class="text-orange-500">Bridges</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Home</a>
+                <a href="#gallery" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Gallery</a>
+                <a href="#contact" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Contact</a>
+            </div>
+            <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition">
+                <i data-lucide="menu" class="w-6 h-6" id="menuIcon"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="mobile-menu md:hidden bg-black/95 border-t border-white/10">
+            <div class="px-6 py-4 flex flex-col gap-4">
+                <a href="#home" class="text-sm font-medium text-white/80 hover:text-white transition" onclick="closeMobile()">Home</a>
+                <a href="#gallery" class="text-sm font-medium text-white/80 hover:text-white transition" onclick="closeMobile()">Gallery</a>
+                <a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition" onclick="closeMobile()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== HOME / HERO ====== -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <img src="https://picsum.photos/seed/golden-gate-bridge/1920/1080.jpg" alt="Bridge Background"
+             class="absolute inset-0 w-full h-full object-cover opacity-40">
+        <div class="hero-bg absolute inset-0"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-orange-500/10 blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto pt-20">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
+                <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                <span class="text-xs font-medium tracking-wide uppercase text-white/60">Explore the World's Bridges</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-medium tracking-tight leading-[1.1] mb-6">
+                Amazing<br>
+                <span class="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">Bridges</span> of the World
+            </h1>
+            <p class="text-lg md:text-xl font-light text-white/60 leading-relaxed max-w-2xl mx-auto mb-10">
+                Discover the most incredible bridges ever built — from ancient stone arches to modern engineering marvels that connect continents and defy gravity.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#gallery" class="px-8 py-3.5 bg-white text-black text-sm font-semibold rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300">
+                    View Gallery
+                </a>
+                <a href="#contact" class="px-8 py-3.5 border border-white/20 text-white text-sm font-semibold rounded-lg hover:bg-white/10 transition-all duration-300">
+                    Contact Us
+                </a>
+            </div>
+            <div class="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
+                <div>
+                    <div class="text-2xl md:text-3xl font-semibold text-orange-500">50+</div>
+                    <div class="text-xs text-white/40 mt-1">Bridges Featured</div>
+                </div>
+                <div>
+                    <div class="text-2xl md:text-3xl font-semibold text-orange-500">30+</div>
+                    <div class="text-xs text-white/40 mt-1">Countries</div>
+                </div>
+                <div>
+                    <div class="text-2xl md:text-3xl font-semibold text-orange-500">5000+</div>
+                    <div class="text-xs text-white/40 mt-1">Years of History</div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+            <span class="text-xs text-white/30">Scroll</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-white/30"></i>
+        </div>
+    </section>
+
+    <!-- ====== ABOUT BRIDGES ====== -->
+    <section class="py-24 px-6 bg-black relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-xs font-medium tracking-widest uppercase text-orange-500 mb-4 block">Why Bridges Matter</span>
+                    <h2 class="text-4xl md:text-5xl font-medium tracking-tight mb-6">Engineering That <span class="text-orange-500">Connects</span> Humanity</h2>
+                    <p class="text-white/60 font-light leading-relaxed mb-6">
+                        Bridges are more than just structures — they are symbols of human ingenuity, perseverance, and the desire to connect. From the simplest wooden footbridge to the longest suspension spans, every bridge tells a story of overcoming obstacles.
+                    </p>
+                    <p class="text-white/60 font-light leading-relaxed mb-8">
+                        They carry economies, cultures, and dreams across rivers, valleys, and seas. Without bridges, the world as we know it would simply not exist.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="p-4 rounded-xl border border-white/10 bg-white/5">
+                            <i data-lucide="ruler" class="w-5 h-5 text-orange-500 mb-2"></i>
+                            <div class="text-sm font-medium">Longest Span</div>
+                            <div class="text-xs text-white/40 mt-1">2,023 meters (Akashi Kaikyo)</div>
+                        </div>
+                        <div class="p-4 rounded-xl border border-white/10 bg-white/5">
+                            <i data-lucide="mountain" class="w-5 h-5 text-orange-500 mb-2"></i>
+                            <div class="text-sm font-medium">Highest Bridge</div>
+                            <div class="text-xs text-white/40 mt-1">565 meters (Beipanjiang)</div>
+                        </div>
+                        <div class="p-4 rounded-xl border border-white/10 bg-white/5">
+                            <i data-lucide="clock" class="w-5 h-5 text-orange-500 mb-2"></i>
+                            <div class="text-sm font-medium">Oldest Bridge</div>
+                            <div class="text-xs text-white/40 mt-1">~1300 BC (Arkadiko)</div>
+                        </div>
+                        <div class="p-4 rounded-xl border border-white/10 bg-white/5">
+                            <i data-lucide="globe" class="w-5 h-5 text-orange-500 mb-2"></i>
+                            <div class="text-sm font-medium">Most Famous</div>
+                            <div class="text-xs text-white/40 mt-1">Golden Gate, San Francisco</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://picsum.photos/seed/suspension-bridge-night/700/800.jpg" alt="Bridge at night"
+                         class="rounded-2xl w-full h-[500px] object-cover">
+                    <div class="absolute -bottom-4 -left-4 bg-orange-500 text-black px-5 py-3 rounded-xl">
+                        <div class="text-sm font-semibold">Since Ancient Times</div>
+                        <div class="text-xs opacity-70">Bridging the gap</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== GALLERY ====== -->
+    <section id="gallery" class="py-32 px-6 relative" style="background: linear-gradient(to bottom, #000, #0B0C0E, #000);">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[100px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium tracking-widest uppercase text-orange-500 mb-4 block">Gallery</span>
+                <h2 class="text-4xl md:text-5xl font-medium tracking-tight mb-4">Iconic Bridges Around the <span class="text-orange-500">World</span></h2>
+                <p class="text-white/60 font-light max-w-xl mx-auto">Explore the most breathtaking bridges — each a masterpiece of engineering, design, and human determination.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="joonyeop-baek-1kf69eE7VR4-unsplash.jpg" alt="Golden Gate Bridge" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Suspension</span>
+                            <span class="text-xs text-white/30">USA</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Golden Gate Bridge</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">Completed in 1937, this iconic red-orange suspension bridge spans 1,280m across the Golden Gate strait in San Francisco. It was the longest suspension bridge in the world until 1964 and remains one of the most photographed structures on Earth.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="2.jpg" alt="Tower Bridge" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Bascule</span>
+                            <span class="text-xs text-white/30">UK</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Tower Bridge</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">A combined bascule and suspension bridge over the River Thames, completed in 1894. Its twin Gothic towers and distinctive blue color make it London's most recognizable landmark. The bridge can open to let ships pass through.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="3.jpg" alt="Ponte Vecchio" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Arch</span>
+                            <span class="text-xs text-white/30">Italy</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Ponte Vecchio</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">Built in 1345, this medieval stone arch bridge over the Arno River in Florence is famous for the shops built along it. It's the oldest surviving segmented arch bridge in Europe and a symbol of the Renaissance era.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="4.jpg" alt="Brooklyn Bridge" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Cable-Stayed</span>
+                            <span class="text-xs text-white/30">USA</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Brooklyn Bridge</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">Opened in 1883, this hybrid cable-stayed/suspension bridge connects Manhattan and Brooklyn. It was the longest bridge in the world at the time and was dubbed the "Eighth Wonder of the World." Over 150,000 people crossed it on opening day.</p>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="5.jpg " alt="Millau Viaduct" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Cable-Stayed</span>
+                            <span class="text-xs text-white/30">France</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Millau Viaduct</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">The tallest bridge in the world at 343 meters — taller than the Eiffel Tower! Spanning the Tarn Valley in southern France, this cable-stayed bridge was completed in 2004 and is considered one of the greatest engineering achievements of the 21st century.</p>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="gallery-card group rounded-2xl border border-white/10 bg-[#0B0C0E] overflow-hidden hover:border-white/20 transition-all duration-300">
+                    <div class="overflow-hidden h-56">
+                        <img src="6.jpg" alt="Akashi Kaikyo Bridge" class="gallery-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-orange-500/10 text-orange-500 rounded-full">Suspension</span>
+                            <span class="text-xs text-white/30">Japan</span>
+                        </div>
+                        <h3 class="text-lg font-medium tracking-tight mb-2">Akashi Kaikyo Bridge</h3>
+                        <p class="text-sm text-white/50 font-light leading-relaxed">The longest suspension bridge in the world with a main span of 1,991 meters. It connects Kobe to Awaji Island in Japan and was designed to withstand earthquakes up to magnitude 8.5 and typhoons with winds up to 286 km/h.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== BRIDGE TYPES ====== -->
+    <section class="py-24 px-6 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-xs font-medium tracking-widest uppercase text-orange-500 mb-4 block">Types</span>
+                <h2 class="text-4xl md:text-5xl font-medium tracking-tight">Bridge <span class="text-orange-500">Types</span></h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-orange-500/30 transition-all duration-300 text-center">
+                    <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="anchor" class="w-6 h-6 text-orange-500"></i>
+                    </div>
+                    <h4 class="font-medium mb-2">Suspension</h4>
+                    <p class="text-xs text-white/40 leading-relaxed">Main cables hang between towers, with smaller cables supporting the deck. Used for the longest spans.</p>
+                </div>
+                <div class="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-orange-500/30 transition-all duration-300 text-center">
+                    <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="arrow-up-from-line" class="w-6 h-6 text-orange-500"></i>
+                    </div>
+                    <h4 class="font-medium mb-2">Arch</h4>
+                    <p class="text-xs text-white/40 leading-relaxed">Uses a curved structure to transfer weight to abutments at each end. One of the oldest bridge designs.</p>
+                </div>
+                <div class="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-orange-500/30 transition-all duration-300 text-center">
+                    <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="git-branch" class="w-6 h-6 text-orange-500"></i>
+                    </div>
+                    <h4 class="font-medium mb-2">Cable-Stayed</h4>
+                    <p class="text-xs text-white/40 leading-relaxed">Cables run directly from towers to the deck in a fan or harp pattern. Modern and efficient design.</p>
+                </div>
+                <div class="p-6 rounded-xl border border-white/10 bg-white/5 hover:border-orange-500/30 transition-all duration-300 text-center">
+                    <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="minus" class="w-6 h-6 text-orange-500"></i>
+                    </div>
+                    <h4 class="font-medium mb-2">Beam</h4>
+                    <p class="text-xs text-white/40 leading-relaxed">Simple horizontal beams supported at each end. The most basic and common type of bridge worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CONTACT ====== -->
+    <section id="contact" class="py-32 px-6 relative" style="background: linear-gradient(to bottom, #000, #0B0C0E, #000);">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[100px] pointer-events-none"></div>
+        <div class="max-w-3xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <span class="text-xs font-medium tracking-widest uppercase text-orange-500 mb-4 block">Contact</span>
+                <h2 class="text-4xl md:text-5xl font-medium tracking-tight mb-4">Get in <span class="text-orange-500">Touch</span></h2>
+                <p class="text-white/60 font-light">Have a question or want to share your bridge photography? We'd love to hear from you.</p>
+            </div>
+            <form id="contactForm" class="space-y-5 p-8 rounded-2xl border border-white/10 bg-[#0B0C0E]">
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="text-xs font-medium text-white/50 mb-2 block">Full Name</label>
+                        <input type="text" placeholder="israr" required class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-white/30 focus:outline-none focus:border-orange-500/50 transition">
+                    </div>
+                    <div>
+                        <label class="text-xs font-medium text-white/50 mb-2 block">Email</label>
+                        <input type="email" placeholder="israr@example.com" required class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-white/30 focus:outline-none focus:border-orange-500/50 transition">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-white/50 mb-2 block">Subject</label>
+                    <input type="text" placeholder="Bridge Photography Submission" class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-white/30 focus:outline-none focus:border-orange-500/50 transition">
+                </div>
+                <div>
+                    <label class="text-xs font-medium text-white/50 mb-2 block">Message</label>
+                    <textarea rows="5" placeholder="Tell us about your favorite bridge..." required class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-white/30 focus:outline-none focus:border-orange-500/50 transition resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-white text-black text-sm font-semibold rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Send Message
+                </button>
+            </form>
+            <div class="grid sm:grid-cols-3 gap-4 mt-8">
+                <div class="p-4 rounded-xl border border-white/10 bg-white/5 text-center">
+                    <i data-lucide="mail" class="w-5 h-5 text-orange-500 mx-auto mb-2"></i>
+                    <div class="text-xs text-white/40">Email</div>
+                    <div class="text-sm font-medium mt-1">israr@amazingbridges.com</div>
+                </div>
+                <div class="p-4 rounded-xl border border-white/10 bg-white/5 text-center">
+                    <i data-lucide="phone" class="w-5 h-5 text-orange-500 mx-auto mb-2"></i>
+                    <div class="text-xs text-white/40">Phone</div>
+                    <div class="text-sm font-medium mt-1">(+923323991424)</div>
+                </div>
+                <div class="p-4 rounded-xl border border-white/10 bg-white/5 text-center">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-orange-500 mx-auto mb-2"></i>
+                    <div class="text-xs text-white/40">Location</div>
+                    <div class="text-sm font-medium mt-1">San Francisco, CA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="py-12 px-6 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="bridge" class="w-6 h-6 text-orange-500"></i>
+                    <span class="text-lg font-semibold">Amazing<span class="text-orange-500">Bridges</span></span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="#home" class="text-xs text-white/40 hover:text-white transition">Home</a>
+                    <a href="#gallery" class="text-xs text-white/40 hover:text-white transition">Gallery</a>
+                    <a href="#contact" class="text-xs text-white/40 hover:text-white transition">Contact</a>
+                </div>
+                <p class="text-xs text-white/30">© 2026 AmazingBridges. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== TOAST ====== -->
+    <div id="toast" class="toast fixed top-24 right-6 z-50 bg-green-500/90 text-white px-5 py-3 rounded-xl flex items-center gap-3 shadow-lg backdrop-blur-sm">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span class="text-sm font-medium">Message sent successfully!</span>
+    </div>
+
+    <!-- ====== DOWNLOAD TOAST ====== -->
+    <div id="downloadToast" class="toast fixed top-24 right-6 z-50 bg-orange-500/90 text-white px-5 py-3 rounded-xl flex items-center gap-3 shadow-lg backdrop-blur-sm">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span class="text-sm font-medium">Website downloading... ✅</span>
+    </div>
+
+    <!-- ====== SCRIPTS ====== -->
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+        menuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('open', menuOpen);
+        });
+        function closeMobile() {
+            menuOpen = false;
+            mobileMenu.classList.remove('open');
+        }
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.style.borderBottom = window.scrollY > 50 ? '1px solid rgba(255,255,255,0.1)' : 'none';
+        });
+
+        // Contact Form
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            toast.classList.add('show');
+            contactForm.reset();
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        });
+
+        // ===========================
+        // DOWNLOAD WEBSITE AS HTML
+        // ===========================
+        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadToast = document.getElementById('downloadToast');
+
+        downloadBtn.addEventListener('click', () => {
+            // Get full HTML
+            const htmlContent = document.documentElement.outerHTML;
+
+            // Add DOCTYPE
+            const fullHtml = '<!DOCTYPE html>\n' + htmlContent;
+
+            // Create blob
+            const blob = new Blob([fullHtml], { type: 'text/html' });
+
+            // Create link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Amazing-Bridges-Website.html';
+
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+            // Show toast
+            downloadToast.classList.add('show');
+            setTimeout(() => downloadToast.classList.remove('show'), 3000);
+        });
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.gallery-card, form, .grid > div').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
